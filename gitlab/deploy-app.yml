@@ -6,6 +6,6 @@
   - name: deploy app deployment
     k8s:
       state: present
-      src: /home/gitlab-runner/builds/$CI_COMMIT_SHORT_SHA/0/mkingst/k8s-ansible-setup/gitlab/regapp-deploy.yml
+      src: /home/gitlab-runner/builds/EoVzRHai/0/mkingst/k8s-ansible-setup/gitlab/regapp-deploy.yml
   vars:
     ansible_python_interpreter: /usr/bin/python3
