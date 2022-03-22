@@ -15,7 +15,7 @@ run:
   environment:
     name: production
   script:
-    - pip install boto boto3 netaddr passlib
+    - pip install --ignore-installed boto boto3 netaddr passlib openshift pyyaml kubernetes --user
     - apt -y update && apt-get install -y apt-transport-https ca-certificates curl
     - echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
     - curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
