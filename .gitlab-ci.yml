@@ -3,9 +3,6 @@ stages:
 
 image:
   name: williamyeh/ansible:ubuntu18.04
-
-environment:
-  name: production
   
 variables:
     ANSIBLE_HOST_KEY_CHECKING: 'false'
@@ -15,6 +12,8 @@ variables:
 
 run:
   stage: run
+  environment:
+    name: production
   script:
     - pip install boto boto3 netaddr passlib
     - apt -y update && apt-get install -y apt-transport-https ca-certificates curl
