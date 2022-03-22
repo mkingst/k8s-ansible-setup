@@ -8,6 +8,7 @@ variables:
     ANSIBLE_HOST_KEY_CHECKING: 'false'
     ANSIBLE_FORCE_COLOR: 'true'
     ANSIBLE_PYTHON_INTERPRRTER: /usr/bin/python3
+    KUBE_CONFIG: $KUBE_CONFIG64
 
 run:
   stage: run
@@ -19,4 +20,5 @@ run:
     - apt-get update && apt-get install -y kubectl
     - echo -n $KUBE_CONFIG | base64 -d > ./config
     - kubectl version
+    - echo -e "[master]\n54.195.157.185" | sudo tee -a /etc/ansible/hosts
     - ansible-playbook gitlab/deploy_app.yml
