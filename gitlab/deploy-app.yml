@@ -1,4 +1,6 @@
 - hosts: all
+  #don't fail and keep proceeding
+  max_fail_percentage: 0
   tasks:
   - name: deploy app deployment
     k8s:
