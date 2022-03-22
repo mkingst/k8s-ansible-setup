@@ -1,6 +1,5 @@
 stages:
   - run
-
 run:
   stage: run
   environment:
