@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: ansible
   #don't fail and keep proceeding
   gather_facts: false
   max_fail_percentage: 0
