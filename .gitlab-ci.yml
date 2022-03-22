@@ -23,7 +23,7 @@ run:
     - mkdir ~/.kube/
     - echo -n $KUBE_CONFIG | base64 -d > ~/.kube/config
     - kubectl version
-    - ssh-keygen
-    - cat 
+    - ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
+    - cat ~/.ssh/id_rsa.pub
     #- echo -e "[master]\n172.17.0.1" | tee -a /etc/ansible/hosts
     - ansible-playbook gitlab/deploy-app.yml
