@@ -2,7 +2,7 @@ stages:
   - run
 
 image:
-  name: williamyeh/ansible:centos7
+  name: williamyeh/ansible:ubuntu18.04
 
 variables:
     ANSIBLE_HOST_KEY_CHECKING: 'false'
@@ -12,6 +12,7 @@ variables:
 run:
   stage: run
   script:
+    - wait 10
     - ansible --version
     - pip install boto boto3 netaddr passlib
     - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
