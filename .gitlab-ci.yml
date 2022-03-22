@@ -12,14 +12,6 @@ variables:
 
 run:
   stage: run
-  before_script:
-  - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )' 
-  - eval $(ssh-agent -s)
-  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
-  - mkdir -p ~/.ssh
-  - chmod 700 ~/.ssh
-  - ssh-keyscan 54.195.157.185 >> ~/.ssh/known_hosts
-  - chmod 644 ~/.ssh/known_hosts
   environment:
     name: production
   script:
@@ -33,5 +25,5 @@ run:
     - kubectl version
     - ssh-keygen
     - cat 
-    - echo -e "[master]\n172.17.0.1" | tee -a /etc/ansible/hosts
+    #- echo -e "[master]\n172.17.0.1" | tee -a /etc/ansible/hosts
     - ansible-playbook gitlab/deploy-app.yml
