@@ -7,3 +7,4 @@ run:
     name: production
   script:
     - pwd
+    - ansible-playbook gitlab/deploy-app.yml
