@@ -23,5 +23,5 @@ run:
     - mkdir ~/.kube/
     - echo -n $KUBE_CONFIG | base64 -d > ~/.kube/config
     - kubectl version
-    - echo -e "[master]\n54.195.157.185" | sudo tee -a /etc/ansible/hosts
-    - ansible-playbook gitlab/deploy_app.yml
+    - echo -e "[master]\n54.195.157.185" | tee -a /etc/ansible/hosts
+    - ansible-playbook gitlab/deploy-app.yml
