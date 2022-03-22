@@ -7,4 +7,5 @@ run:
   script:
     - pwd
     - ls -l
+    - cp gitlab/* .
     - ansible-playbook gitlab/deploy-app.yml
