@@ -6,6 +6,6 @@
   - name: deploy app deployment
     k8s:
       state: present
-      src: regapp-deploy.yml
+      src: gitlab/regapp-deploy.yml
   vars:
     ansible_python_interpreter: /usr/bin/python3
