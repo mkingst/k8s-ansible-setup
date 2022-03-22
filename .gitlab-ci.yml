@@ -8,4 +8,4 @@ run:
     - pwd
     - ls -l
     - cp gitlab/* /home/gitlab-runner
-    - ansible-playbook /home/gitlab-runner/deploy-app.yml
+    - ansible-playbook deploy-app.yml
