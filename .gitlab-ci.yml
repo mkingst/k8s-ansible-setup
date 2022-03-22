@@ -12,8 +12,6 @@ variables:
 run:
   stage: run
   script:
-    - wait 10
-    - ansible --version
     - pip install boto boto3 netaddr passlib
     - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
     - chmod +x kubectl
