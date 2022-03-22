@@ -4,6 +4,9 @@ stages:
 image:
   name: williamyeh/ansible:ubuntu18.04
 
+environment:
+  name: production
+  
 variables:
     ANSIBLE_HOST_KEY_CHECKING: 'false'
     ANSIBLE_FORCE_COLOR: 'true'
