@@ -1,0 +1,70 @@
+---
+- hosts: "master, workers"
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  become_user: root
+  gather_facts: yes
+  connection: ssh
+
+  tasks:
+
+     - name: install docker
+       shell: |
+               sudo apt-get update && sudo apt-get install -y docker.io
+               sudo systemctl enable docker
+               sudo systemctl restart docker
+
+     - name: disable swap and other settings
+       shell: |
+               sudo swapoff -a
+               sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+               echo "net.ipv4.conf.all.forwarding=1" | sudo tee -a /etc/sysctl.conf
+               echo "net.bridge.bridge-nf-call-iptables=1" | sudo tee -a /etc/sysctl.conf
+               cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+               br_netfilter
+               EOF
+
+               cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+               net.bridge.bridge-nf-call-ip6tables = 1
+               net.bridge.bridge-nf-call-iptables = 1
+               EOF
+               sudo sysctl --system
+               
+     - name: install and configure dependencies
+       shell: |
+               sudo apt-get update && sudo apt-get install -y apt-transport-https curl
+               curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+
+     - name: Create kubernetes repo file
+       file:
+         path: "/etc/apt/sources.list.d/kubernetes.list"
+         state: "touch"
+
+     - name: Add K8s Source
+       blockinfile:
+         path: "/etc/apt/sources.list.d/kubernetes.list"
+         block: |
+               deb https://apt.kubernetes.io/ kubernetes-xenial main
+    
+     - name: Increase Docker Memory
+       shell: |
+                 sudo mkdir /etc/docker
+                 cat <<EOF | sudo tee /etc/docker/daemon.json
+                 {
+                 "exec-opts": ["native.cgroupdriver=systemd"],
+                 "log-driver": "json-file",
+                 "log-opts": {
+                     "max-size": "100m"
+                 },
+                 "storage-driver": "overlay2"
+                 }
+                 EOF
+
+     - name: install kubernetes
+       shell: |
+               sudo apt-get update
+               sudo apt-get install -y kubeadm kubelet kubectl
+               sudo apt-mark hold kubeadm kubelet kubectl
+               sudo systemctl daemon-reload
+               sudo systemctl restart docker

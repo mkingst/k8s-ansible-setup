@@ -1,0 +1,25 @@
+- hosts: 'workers, master'
+  become: yes
+  vars_files:
+  - keys.yml
+  remote_user: ubuntu  #user on the ec2 instance
+  tasks:
+    - name: wait for ssh to come up
+      wait_for_connection:
+        delay: 5
+        timeout: 90
+
+    - name: create the kube user account
+      user: name=kube append=yes state=present createhome=yes shell=/bin/bash
+
+    - name: allow 'kube' to use sudo without needing a password
+      lineinfile:
+        dest: /etc/sudoers
+        line: 'kube ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+
+    - name: set up authorized keys for the kube user
+      authorized_key: user=kube key="{{item}}"
+      with_file:
+        - ~/.ssh/id_rsa.pub
+
