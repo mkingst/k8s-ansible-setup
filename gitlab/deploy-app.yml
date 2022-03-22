@@ -1,4 +1,4 @@
-- hosts: ansible
+- hosts: localhost
   tasks:
   - name: deploy app deployment
     k8s:
