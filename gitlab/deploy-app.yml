@@ -1,5 +1,6 @@
 - hosts: all
   #don't fail and keep proceeding
+  gather_facts: false
   max_fail_percentage: 0
   tasks:
   - name: deploy app deployment
