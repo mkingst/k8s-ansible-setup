@@ -1,36 +1,9 @@
 stages:
   - run
 
-image:
-  name: williamyeh/ansible:ubuntu18.04
-  
-variables:
-    ANSIBLE_HOST_KEY_CHECKING: 'false'
-    ANSIBLE_FORCE_COLOR: 'true'
-    ANSIBLE_PYTHON_INTERPRRTER: /usr/bin/python3
-    KUBE_CONFIG: $KUBE_CONFIG64
-    SSH_PRIVATE_KEY: $SSH_PRIVATE_KEY
-
 run:
   stage: run
   environment:
     name: production
   script:
-    - pip install --ignore-installed boto boto3 netaddr passlib openshift pyyaml kubernetes --user
-    - apt -y update && apt-get install -y apt-transport-https ca-certificates curl
-    - echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list
-    - curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
-    - apt-get update && apt-get install -y kubectl
-    - mkdir ~/.kube/
-    - echo -n $KUBE_CONFIG | base64 -d > ~/.kube/config
-    - kubectl version
-    - eval $(ssh-agent -s)
-    - chmod 0600 "$SSH_PRIVATE_KEY"
-    - ssh-add "$SSH_PRIVATE_KEY"
-    - mkdir -p ~/.ssh
-    - cp "$SSH_CONFIG" ~/.ssh/config
-    - chmod 0600 ~/.ssh/config
-  #  - ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa <<<y >/dev/null 2>&1
-  #  - cat ~/.ssh/id_rsa.pub
-    - echo -e "[ansible]\n3.250.60.226" | tee -a /etc/ansible/hosts
-    - ansible-playbook gitlab/deploy-app.yml
+    - pwd
